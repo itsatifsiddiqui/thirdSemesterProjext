@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import models.Supplier;
 
 // @SuppressWarnings("all")
-public class Table<StudentTaTbleModel> extends JFrame {
+public class Table extends JFrame {
 
     JTable table;
 

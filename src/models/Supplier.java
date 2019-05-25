@@ -41,4 +41,16 @@ public class Supplier extends Person implements Serializable {
         return Operations.readAllData(fileName);
     }
 
+    public static ArrayList<Supplier> searchSupplier(String cnic) {
+        ArrayList<Supplier> suppliers = Operations.readAllData(fileName);
+        for (Supplier supplier : suppliers) {
+            if (supplier.getCnic().equalsIgnoreCase(cnic)) {
+                ArrayList<Supplier> temp = new ArrayList<Supplier>();
+                temp.add(supplier);
+                return temp;
+            }
+        }
+        return null;
+    }
+
 }

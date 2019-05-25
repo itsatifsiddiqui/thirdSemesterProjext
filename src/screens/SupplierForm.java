@@ -30,17 +30,16 @@ public class SupplierForm extends GUI {
 
                 if (name.getText().matches(Regex.NAME) && phone.getText().matches(Regex.PHONE)
                         && cnic.getText().matches(Regex.CNIC) && dues.getText().matches(Regex.DOUBLE)) {
-                    Supplier supplier = new Supplier(name.getText(), phone.getText(), cnic.getText(),
+                    Supplier supplier = new Supplier(name.getText().toLowerCase(), phone.getText().toLowerCase(), cnic.getText().toLowerCase(),
                             Double.parseDouble(dues.getText()));
                     ArrayList<Supplier> suppliers = Operations.readAllData("suppliers.ser");
 
                     for (Supplier s : suppliers) {
-                        if (s.getPhone().equals(supplier.getName()) || s.getPevDues() == supplier.getPevDues()) {
+                        if (s.getPhone().equalsIgnoreCase(supplier.getName()) || s.getPevDues() == supplier.getPevDues()) {
                             JOptionPane.showMessageDialog(null, "Supplier Alreay Exist");
                             return;
                         }
                     }
-
                     Operations.writeData(supplier, "suppliers.ser");
                     JOptionPane.showMessageDialog(null, "Supplier Added Successfully");
                     setVisible(false);
