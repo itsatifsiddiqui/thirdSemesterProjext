@@ -4,18 +4,18 @@ import java.io.Serializable;
 
 public abstract class Person implements Serializable {
 
-    private String name, phone, gender;
+    private String name, phone, cnic;
 
     public Person() {
         name = " ";
         phone = " ";
-        gender = " ";
+        cnic = " ";
     }
 
-    public Person(String name, String phone, String gender) {
+    public Person(String name, String phone, String cnic) {
         this.name = name;
         this.phone = phone;
-        this.gender = gender;
+        this.cnic = cnic;
     }
 
     public String getName() {
@@ -34,17 +34,17 @@ public abstract class Person implements Serializable {
         this.phone = phone;
     }
 
-    public String getGender() {
-        return this.gender;
+    public String getCnic() {
+        return this.cnic;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setCninc(String gender) {
+        this.cnic = gender;
     }
 
     @Override
     public String toString() {
-        return "Name: " + getName() + "  Phone: " + getPhone() + "  Geneder: " + getGender() + "\n";
+        return "Name: " + getName() + "  Phone: " + getPhone() + "  CNIC: " + getCnic() + "\n";
     }
 
 }

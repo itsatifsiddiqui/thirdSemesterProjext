@@ -6,26 +6,24 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import models.Student;
+import models.Supplier;
 
-public class Table<StudentTableModel> extends JFrame {
+// @SuppressWarnings("all")
+public class Table<StudentTaTbleModel> extends JFrame {
 
     JTable table;
 
-    public Table(ArrayList<Student> students) {
+    public <T> Table(ArrayList<T> list, String[] columnNames) {
 
         setSize(800, 600);
-        setTitle("Student Records");
 
-        String[] columnNames = { "Student Name", "Phone", "Gender", "GPA", "Semester", "Section", "Department Name",
-                "Department Location" };
 
-        // ArrayList<Student> students = Operations.readAllData();
-
-        if (students.size() == 0) {
-            JOptionPane.showMessageDialog(null, "No Student Exist Try Adding Some");
+        if (list.size() == 0) {
+            JOptionPane.showMessageDialog(null, "No Record Exist Try Adding Some");
             return;
         }
+
+        setTitle(list.get(0).getClass().getSimpleName() + " Records");
 
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
@@ -36,12 +34,15 @@ public class Table<StudentTableModel> extends JFrame {
 
         table = new JTable(tableModel);
 
-        students.forEach((student) -> {
-            Object[] x = { student.getName(), student.getPhone(), student.getGender(), student.getGpa(),
-                    student.getSemester(), student.getSection(), student.getDep().getName(),
-                    student.getDep().getLoacation() };
-            tableModel.addRow(x);
-        });
+        if (list.get(0) instanceof Supplier) {
+            ArrayList<Supplier> suppliersList = (ArrayList<Supplier>) list;
+            for (Supplier supplier : suppliersList) {
+                Object[] x = { supplier.getName(), supplier.getPhone(), supplier.getCnic(), supplier.getPevDues() };
+                tableModel.addRow(x);
+            }
+
+        }
+
 
         table.setPreferredScrollableViewportSize(new Dimension(640, 480));
         table.setFillsViewportHeight(true);

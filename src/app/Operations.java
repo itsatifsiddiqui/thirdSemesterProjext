@@ -9,18 +9,20 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import models.Student;
 
 public class Operations {
 
-    public static <T> ArrayList<T> readAllData() {
+    private static final String fileName = "students.ser";
+
+    @SuppressWarnings("unchecked")
+    public static <T>  ArrayList<T> readAllData(String fileName) {
         // ArrayList initialized with size 0
         ArrayList<T> list = new ArrayList<T>(0);
         // Input stream
         ObjectInputStream inputStream = null;
         try {
             // open file for reading
-            inputStream = new ObjectInputStream(new FileInputStream("students.ser"));
+            inputStream = new ObjectInputStream(new FileInputStream(fileName));
             // End Of File flag
             boolean EOF = false;
             // Keep reading file until file ends
@@ -53,20 +55,19 @@ public class Operations {
             }
         }
 
-        // returns ArrayList
         return list;
     }
 
-    public static <T> void writeData(T s) {
+    public static <T> void writeData(T s,String fileName) {
         ObjectOutputStream outputStream = null;
 
         try {
             // Read old objects
-            ArrayList<T> list = readAllData();
+            ArrayList<T> list =  readAllData(fileName);
             // Append new object into existing list
             list.add(s);
             // Open Stream for writing
-            outputStream = new ObjectOutputStream(new FileOutputStream("students.ser"));
+            outputStream = new ObjectOutputStream(new FileOutputStream(fileName));
 
             // Write all objects (old and new one) into the file
 
@@ -85,158 +86,80 @@ public class Operations {
         }
     }
 
-    public static void updateData(Student s, String nameSearch) {
-        ObjectOutputStream outputStream = null;
+    // public static void updateData(Student s, String nameSearch) {
+    //     try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileName));) {
+    //         ArrayList<Student> StudentList = readAllData();
+    //         for (Student studentList : StudentList) {
+    //             if (studentList.getName().equals(nameSearch)) {
+    //                 studentList.setName(s.getName());
+    //                 studentList.setPhone(s.getPhone());
+    //                 studentList.setGpa(s.getGpa());
+    //                 studentList.setSemester(s.getSemester());
+    //                 studentList.setSection(s.getSection());
+    //                 studentList.getDep().setName(s.getDep().getName());
+    //                 studentList.getDep().setLoacation(s.getDep().getLoacation());
+    //                 studentList.setGender(s.getGender());
+    //                 break;
+    //             }
+    //         }
 
-        try {
-            // Read old objects
-            ArrayList<Student> StudentList = readAllData();
-            // Append new object into existing list
+    //         for (Student studentList : StudentList)
+    //             outputStream.writeObject(studentList);
 
-            for (Student student : StudentList) {
-                if (student.getName().equals(nameSearch)) {
-                    student.setName(s.getName());
-                    student.setPhone(s.getPhone());
-                    student.setGpa(s.getGpa());
-                    student.setSemester(s.getSemester());
-                    student.setSection(s.getSection());
-                    student.getDep().setName(s.getDep().getName());
-                    student.getDep().setLoacation(s.getDep().getLoacation());
-                    student.setGender(s.getGender());
-                    break;
-                }
-            }
+    //     } catch (IOException e) {
+    //         System.out.println("IO Exception while opening file");
+    //     }
+    // }
 
-            // Open Stream for writing
-            outputStream = new ObjectOutputStream(new FileOutputStream("students.ser"));
+    // public static boolean deleteStudent(String name) {
+    //     boolean found = false;
+    //     try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileName));) {
+    //         ArrayList<Student> StudentList = readAllData();
 
-            // Write all objects (old and new one) into the file
+    //         found = StudentList.removeIf((std) -> (std.getName().equals(name)));
 
-            for (Student student : StudentList)
-                outputStream.writeObject(student);
+    //         for (Student studentList : StudentList)
+    //             outputStream.writeObject(studentList);
 
-        } catch (IOException e) {
-            System.out.println("IO Exception while opening file");
-        } finally { // cleanup code which closes output stream if its object was created
-            try {
-                if (outputStream != null) {
-                    outputStream.close();
-                }
+    //     } catch (IOException e) {
+    //         System.out.println("IO Exception while opening file");
+    //     }
+    //     return found;
+    // }
 
-            } catch (IOException e) {
-                System.out.println("IO Exception while closing file");
-            }
-        }
-    }
+    // public static ArrayList<Student> searchStudent(String name) {
+    //     ArrayList<Student> studentList = new ArrayList<Student>(0);
 
-    public static boolean deleteStudent(String name) {
-        boolean found = false;
-        ObjectOutputStream outputStream = null;
+    //     try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileName));) {
+    //         ArrayList<Student> StudentList = readAllData();
+    //         for (Student std : StudentList) {
+    //             if (std.getName().equals(name))
+    //                 studentList.add(std);
+    //         }
 
-        try {
-            // Read old objects
-            ArrayList<Student> StudentList = readAllData();
-            // Append new object into existing list
+    //         for (Student stud : StudentList)
+    //             outputStream.writeObject(stud);
+    //     } catch (IOException e) {
+    //         System.out.println("IO Exception while opening file");
+    //     }
+    //     return studentList;
+    // }
 
-            found = StudentList.removeIf((std) -> (std.getName().equals(name)));
+    // public static ArrayList<Student> searchStudentByDepartment(String deptName) {
+    //     ArrayList<Student> studentsList = new ArrayList<Student>();
 
-            // Open Stream for writing
+    //     try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileName));) {
+    //         ArrayList<Student> StudentList = readAllData();
 
-            outputStream = new ObjectOutputStream(new FileOutputStream("students.ser"));
-
-            // Write all objects (old and new one) into the file
-
-            for (Student student : StudentList)
-                outputStream.writeObject(student);
-
-        } catch (IOException e) {
-            System.out.println("IO Exception while opening file");
-        } finally {
-            try {
-                if (outputStream != null)
-                    outputStream.close();
-
-            } catch (IOException e) {
-                System.out.println("IO Exception while closing file");
-            }
-            return found;
-
-        }
-
-    }
-
-    public static ArrayList<Student> searchStudent(String name) {
-        ObjectOutputStream outputStream = null;
-        ArrayList<Student> student = new ArrayList<Student>(0);
-
-        try {
-            ArrayList<Student> StudentList = readAllData();
-
-            for (Student std : StudentList) {
-                if (std.getName().equals(name))
-                    student.add(std);
-            }
-
-            // Open Stream for writing
-
-            outputStream = new ObjectOutputStream(new FileOutputStream("students.ser"));
-
-            // Write all objects (old and new one) into the file
-
-            for (Student stud : StudentList)
-                outputStream.writeObject(stud);
-        } catch (IOException e) {
-            System.out.println("IO Exception while opening file");
-        } finally {
-            try {
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-
-            } catch (IOException e) {
-                System.out.println("IO Exception while closing file");
-            }
-            if (student.size() > 0)
-                return student;
-            return null;
-        }
-
-    }
-
-    public static ArrayList<Student> searchStudentByDepartment(String deptName) {
-        ObjectOutputStream outputStream = null;
-        ArrayList<Student> students = new ArrayList<Student>();
-
-        try {
-            ArrayList<Student> StudentList = readAllData();
-
-            for (Student std : StudentList) {
-                if (std.getDep().getName().equals(deptName))
-                    students.add(std);
-            }
-            System.out.println(students);
-
-            // Open Stream for writing
-
-            outputStream = new ObjectOutputStream(new FileOutputStream("students.ser"));
-
-            // Write all objects (old and new one) into the file
-
-            for (Student stud : StudentList)
-                outputStream.writeObject(stud);
-        } catch (IOException e) {
-            System.out.println("IO Exception while opening file");
-        } finally {
-
-            try {
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-
-            } catch (IOException e) {
-                System.out.println("IO Exception while closing file");
-            }
-            return students;
-        }
-    }
+    //         for (Student std : StudentList) {
+    //             if (std.getDep().getName().equals(deptName))
+    //                 studentsList.add(std);
+    //         }
+    //         for (Student stud : StudentList)
+    //             outputStream.writeObject(stud);
+    //     } catch (IOException e) {
+    //         System.out.println("IO Exception while opening file");
+    //     }
+    //     return studentsList;
+    // }
 }
