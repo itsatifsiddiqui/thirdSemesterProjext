@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import app.Operations;
+import extras.File;
 
 @SuppressWarnings("all")
 public class Supplier extends Person implements Serializable {
 
     double prevDues;
-    public static String fileName = "suppliers.ser";
 
     public Supplier() {
         super();
@@ -34,12 +34,12 @@ public class Supplier extends Person implements Serializable {
     }
 
     public static void addNewSupplier(Supplier s) {
-        Operations.writeData(s, fileName);
+        Operations.writeData(s, File.supplier);
         System.out.println("Written");
     }
 
     public static ArrayList<Supplier> getAllSuppliers() {
-        return Operations.readAllData("suppliers.ser");
+        return Operations.readAllData(File.supplier);
     }
 
     public static ArrayList<Supplier> searchSupplier(String name) {
@@ -61,7 +61,7 @@ public class Supplier extends Person implements Serializable {
         found = supplierList.removeIf((std) -> (std.getCnic().equals(cnic)));
 
         if (found)
-            Operations.writeList(supplierList, fileName);
+            Operations.writeList(supplierList, File.supplier);
 
         return found;
 
@@ -89,7 +89,7 @@ public class Supplier extends Person implements Serializable {
                 supplier.setPrevDues(s.getPevDues());
                 break;
             }
-        Operations.writeList(supplierList, fileName);
+        Operations.writeList(supplierList, File.supplier);
     }
 
 }

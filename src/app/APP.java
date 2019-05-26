@@ -3,6 +3,7 @@ package app;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import extras.File;
 import mdlaf.MaterialLookAndFeel;
 import screens.SupplierMenu;
 
@@ -15,7 +16,7 @@ public class APP {
 			e.printStackTrace();
 		}
 
-		System.out.println(Operations.readAllData("suppliers.ser"));
+		System.out.println(Operations.readAllData(File.supplier));
 		new SupplierMenu();
 
 	}

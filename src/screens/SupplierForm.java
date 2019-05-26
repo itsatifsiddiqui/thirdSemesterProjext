@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import app.Operations;
+import extras.File;
 import extras.GUI;
 import extras.Regex;
 import extras.Styles;
@@ -46,7 +47,7 @@ public class SupplierForm extends GUI {
                     Supplier sup = new Supplier(fname, fphone, fcnic, Double.parseDouble(fdues));
 
                     if (supplier == null) {
-                        ArrayList<Supplier> suppliers = Operations.readAllData("suppliers.ser");
+                        ArrayList<Supplier> suppliers = Operations.readAllData(File.supplier);
 
                         for (Supplier s : suppliers) {
                             if (s.getPhone().equalsIgnoreCase(sup.getName()) || s.getPevDues() == sup.getPevDues()) {
@@ -54,7 +55,7 @@ public class SupplierForm extends GUI {
                                 return;
                             }
                         }
-                        Operations.writeData(sup, "suppliers.ser");
+                        Operations.writeData(sup, File.supplier);
                         JOptionPane.showMessageDialog(null, "Supplier Added Successfully");
                     } else {
                         
