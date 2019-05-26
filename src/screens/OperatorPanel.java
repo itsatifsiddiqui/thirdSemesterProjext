@@ -14,6 +14,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import extras.*;
 
+@SuppressWarnings("all")
 public class OperatorPanel extends GUI {
 
     JComboBox<String> productsListBox;

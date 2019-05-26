@@ -2,6 +2,7 @@ package models;
 
 import java.io.Serializable;
 
+@SuppressWarnings("all")
 public class Product implements Serializable {
 
     String brand,name;

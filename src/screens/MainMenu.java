@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import extras.GUI;
 import extras.Styles;;
 
+@SuppressWarnings("all")
 public class MainMenu extends GUI {
 
     public MainMenu() {

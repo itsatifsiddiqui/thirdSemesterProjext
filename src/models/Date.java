@@ -2,6 +2,7 @@ package models;
 
 import java.io.Serializable;
 
+@SuppressWarnings("all")
 public class Date implements Serializable {
 
     int day, year, month;

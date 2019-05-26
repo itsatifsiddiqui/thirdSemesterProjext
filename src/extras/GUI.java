@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+@SuppressWarnings("all")
 public abstract class GUI extends JFrame implements GuiMethod {
 
     @Override

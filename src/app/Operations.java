@@ -12,8 +12,6 @@ import java.util.ArrayList;
 
 public class Operations {
 
-    private static final String fileName = "students.ser";
-
     @SuppressWarnings("unchecked")
     public static <T>  ArrayList<T> readAllData(String fileName) {
         // ArrayList initialized with size 0

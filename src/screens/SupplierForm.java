@@ -14,6 +14,7 @@ import extras.Regex;
 import extras.Styles;
 import models.Supplier;
 
+@SuppressWarnings("all")
 public class SupplierForm extends GUI {
 
     public SupplierForm(Supplier supplier) {

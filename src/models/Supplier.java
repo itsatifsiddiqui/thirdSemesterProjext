@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import app.Operations;
 
+@SuppressWarnings("all")
 public class Supplier extends Person implements Serializable {
 
     double prevDues;

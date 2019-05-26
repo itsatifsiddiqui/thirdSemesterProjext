@@ -14,6 +14,7 @@ import extras.GUI;
 import extras.Regex;
 import extras.Styles;
 
+@SuppressWarnings("all")
 public class SupplierMenu extends GUI {
 
     String[] columnName = new String[] { "Name", "Phone", "CNIC", "Previous Dues" };
