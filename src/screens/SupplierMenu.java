@@ -56,8 +56,22 @@ public class SupplierMenu extends GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                String cnic = JOptionPane.showInputDialog("Enter Supplier Cnic To Search").trim();
+
+                if (!cnic.matches(Regex.CNIC)) {
+                    JOptionPane.showMessageDialog(null, "Invalid CNIC");
+                    return;
+                }
+
+                Supplier supplier = Supplier.getSupplier(cnic);
+                if (supplier == null)
+                    JOptionPane.showMessageDialog(null, "Supplier Not Found");
+                else {
+                    new SupplierForm(supplier);
+                }
 
             }
+
         }).setFont(Styles.heading);
 
         addButton("Delete A Supplier", new ActionListener() {
@@ -82,7 +96,9 @@ public class SupplierMenu extends GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Table(Supplier.getAllSuppliers(), columnName);
+
+                ArrayList<Supplier> list = Supplier.getAllSuppliers();
+                new Table(list, columnName);
 
             }
         }).setFont(Styles.heading);

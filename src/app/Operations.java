@@ -14,6 +14,7 @@ public class Operations {
 
     @SuppressWarnings("unchecked")
     public static <T>  ArrayList<T> readAllData(String fileName) {
+        
         // ArrayList initialized with size 0
         ArrayList<T> list = new ArrayList<T>(0);
         // Input stream
@@ -105,20 +106,20 @@ public class Operations {
 
     // public static void updateData(Student s, String nameSearch) {
     //     try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileName));) {
-    //         ArrayList<Student> StudentList = readAllData();
-    //         for (Student studentList : StudentList) {
-    //             if (studentList.getName().equals(nameSearch)) {
-    //                 studentList.setName(s.getName());
-    //                 studentList.setPhone(s.getPhone());
-    //                 studentList.setGpa(s.getGpa());
-    //                 studentList.setSemester(s.getSemester());
-    //                 studentList.setSection(s.getSection());
-    //                 studentList.getDep().setName(s.getDep().getName());
-    //                 studentList.getDep().setLoacation(s.getDep().getLoacation());
-    //                 studentList.setGender(s.getGender());
-    //                 break;
-    //             }
-    //         }
+            // ArrayList<Student> StudentList = readAllData();
+            // for (Student studentList : StudentList) {
+            //     if (studentList.getName().equals(nameSearch)) {
+            //         studentList.setName(s.getName());
+            //         studentList.setPhone(s.getPhone());
+            //         studentList.setGpa(s.getGpa());
+            //         studentList.setSemester(s.getSemester());
+            //         studentList.setSection(s.getSection());
+            //         studentList.getDep().setName(s.getDep().getName());
+            //         studentList.getDep().setLoacation(s.getDep().getLoacation());
+            //         studentList.setGender(s.getGender());
+            //         break;
+            //     }
+            // }
 
     //         for (Student studentList : StudentList)
     //             outputStream.writeObject(studentList);

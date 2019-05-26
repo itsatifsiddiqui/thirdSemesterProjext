@@ -123,7 +123,7 @@
 //                     } else {
 //                         Student newStudent = new Student(gname, gphone, gender.getSelectedItem().toString(), gGPA,
 //                                 gsemester, gsection, new Department(gdeptName, glocaion));
-//                         Operations.updateData(newStudent, nameSearch);
+                        // Operations.updateData(newStudent, nameSearch);
 //                         setVisible(false);
 //                         dispose();
 //                         JOptionPane.showMessageDialog(null, "Student Edited Successfully");

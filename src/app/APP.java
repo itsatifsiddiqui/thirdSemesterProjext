@@ -15,7 +15,9 @@ public class APP {
 			e.printStackTrace();
 		}
 
+		System.out.println(Operations.readAllData("suppliers.ser"));
 		new SupplierMenu();
+
 	}
 
 }

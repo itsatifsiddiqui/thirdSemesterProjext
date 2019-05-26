@@ -17,8 +17,13 @@ import models.Supplier;
 @SuppressWarnings("all")
 public class SupplierForm extends GUI {
 
+    String cnicSearch;
+
     public SupplierForm(Supplier supplier) {
         init((supplier == null) ? "Add Supplier" : "Edit " + supplier.getName(), new GridLayout(5, 1), 640, 300);
+
+        if (supplier != null)
+            cnicSearch = supplier.getCnic();
 
         JTextField name = addTextField("   Name", (supplier == null) ? "" : supplier.getName());
         JTextField phone = addTextField("   Phone", (supplier == null) ? "" : supplier.getPhone());
@@ -29,20 +34,34 @@ public class SupplierForm extends GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (name.getText().matches(Regex.NAME) && phone.getText().matches(Regex.PHONE)
-                        && cnic.getText().matches(Regex.CNIC) && dues.getText().matches(Regex.DOUBLE)) {
-                    Supplier supplier = new Supplier(name.getText().toLowerCase(), phone.getText().toLowerCase(), cnic.getText().toLowerCase(),
-                            Double.parseDouble(dues.getText()));
-                    ArrayList<Supplier> suppliers = Operations.readAllData("suppliers.ser");
+                String fname = name.getText().toLowerCase();
+                String fphone = phone.getText().toLowerCase();
+                String fcnic = cnic.getText().toLowerCase();
+                String fdues = dues.getText().toLowerCase();
 
-                    for (Supplier s : suppliers) {
-                        if (s.getPhone().equalsIgnoreCase(supplier.getName()) || s.getPevDues() == supplier.getPevDues()) {
-                            JOptionPane.showMessageDialog(null, "Supplier Already Exist");
-                            return;
+                if (fname.matches(Regex.NAME) && fphone.matches(Regex.PHONE) && fcnic.matches(Regex.CNIC)
+                        && fdues.matches(Regex.DOUBLE)) {
+
+                    System.out.println(fname + " : " + fphone + " : " + fcnic + " : " + fdues);
+                    Supplier sup = new Supplier(fname, fphone, fcnic, Double.parseDouble(fdues));
+
+                    if (supplier == null) {
+                        ArrayList<Supplier> suppliers = Operations.readAllData("suppliers.ser");
+
+                        for (Supplier s : suppliers) {
+                            if (s.getPhone().equalsIgnoreCase(sup.getName()) || s.getPevDues() == sup.getPevDues()) {
+                                JOptionPane.showMessageDialog(null, "Supplier Already Exist");
+                                return;
+                            }
                         }
+                        Operations.writeData(sup, "suppliers.ser");
+                        JOptionPane.showMessageDialog(null, "Supplier Added Successfully");
+                    } else {
+                        
+                        Supplier.updateSupplier(sup, cnicSearch);
+                        JOptionPane.showMessageDialog(null, "Supplier Edited Successfully");
                     }
-                    Operations.writeData(supplier, "suppliers.ser");
-                    JOptionPane.showMessageDialog(null, "Supplier Added Successfully");
+
                     setVisible(false);
                     dispose();
                 } else

@@ -24,7 +24,7 @@ public class Supplier extends Person implements Serializable {
         return this.prevDues;
     }
 
-    public void setPrevDues(int prevDues) {
+    public void setPrevDues(double prevDues) {
         this.prevDues = prevDues;
     }
 
@@ -39,7 +39,7 @@ public class Supplier extends Person implements Serializable {
     }
 
     public static ArrayList<Supplier> getAllSuppliers() {
-        return Operations.readAllData(fileName);
+        return Operations.readAllData("suppliers.ser");
     }
 
     public static ArrayList<Supplier> searchSupplier(String name) {
@@ -65,6 +65,31 @@ public class Supplier extends Person implements Serializable {
 
         return found;
 
+    }
+
+    public static Supplier getSupplier(String cnic) {
+        ArrayList<Supplier> supplierList = getAllSuppliers();
+
+        for (Supplier supplier : supplierList)
+            if (supplier.getCnic().equals(cnic))
+                return supplier;
+
+        return null;
+
+    }
+
+    public static void updateSupplier(Supplier s, String cnicSearch) {
+
+        ArrayList<Supplier> supplierList = getAllSuppliers();
+        for (Supplier supplier : supplierList)
+            if (supplier.getCnic().equals(cnicSearch)) {
+                supplier.setName(s.getName());
+                supplier.setPhone(s.getPhone());
+                supplier.setCninc(s.getCnic());
+                supplier.setPrevDues(s.getPevDues());
+                break;
+            }
+        Operations.writeList(supplierList, fileName);
     }
 
 }
