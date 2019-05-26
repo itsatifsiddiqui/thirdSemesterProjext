@@ -86,6 +86,25 @@ public class Operations {
         }
     }
 
+    public static <T> void writeList(ArrayList<T> list,String fileName) {
+        ObjectOutputStream outputStream = null;
+        try {
+            outputStream = new ObjectOutputStream(new FileOutputStream(fileName));
+            for (T student : list)
+                outputStream.writeObject(student);
+        } catch (IOException e) {
+            System.out.println("IO Exception while opening file");
+        } finally {
+            try {
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            } catch (IOException e) {
+                System.out.println("IO Exception while closing file");
+            }
+        }
+    }
+
     // public static void updateData(Student s, String nameSearch) {
     //     try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileName));) {
     //         ArrayList<Student> StudentList = readAllData();
@@ -114,12 +133,12 @@ public class Operations {
     // public static boolean deleteStudent(String name) {
     //     boolean found = false;
     //     try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileName));) {
-    //         ArrayList<Student> StudentList = readAllData();
+            // ArrayList<Student> StudentList = readAllData();
 
-    //         found = StudentList.removeIf((std) -> (std.getName().equals(name)));
+            // found = StudentList.removeIf((std) -> (std.getName().equals(name)));
 
-    //         for (Student studentList : StudentList)
-    //             outputStream.writeObject(studentList);
+            // for (Student studentList : StudentList)
+            //     outputStream.writeObject(studentList);
 
     //     } catch (IOException e) {
     //         System.out.println("IO Exception while opening file");

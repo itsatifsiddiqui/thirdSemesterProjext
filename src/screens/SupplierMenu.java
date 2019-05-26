@@ -34,6 +34,20 @@ public class SupplierMenu extends GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                String name = JOptionPane.showInputDialog("Enter Supplier Name To Search").trim();
+
+                if (!name.matches(Regex.NAME)) {
+                    JOptionPane.showMessageDialog(null, "Invalid Name");
+                    return;
+                }
+
+                ArrayList<Supplier> suppliers = Supplier.searchSupplier(name);
+                if (suppliers == null) {
+                    JOptionPane.showMessageDialog(null, "Supplier Not Found");
+                } else {
+                    new Table<>(suppliers, columnName);
+                }
+
             }
         }).setFont(Styles.heading);
 
@@ -49,20 +63,17 @@ public class SupplierMenu extends GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                String cnic = JOptionPane.showInputDialog("Enter Supplier CNIC To Search").trim();
+                String cnic = JOptionPane.showInputDialog("Enter Supplier Cnic To Search").trim();
 
                 if (!cnic.matches(Regex.CNIC)) {
                     JOptionPane.showMessageDialog(null, "Invalid CNIC");
                     return;
                 }
-
-                ArrayList<Supplier> suppliers = Supplier.searchSupplier(cnic);
-                if (suppliers == null) {
+                boolean hasDeleted = Supplier.deleteSupplier(cnic);
+                if (!hasDeleted)
                     JOptionPane.showMessageDialog(null, "Supplier Not Found");
-                } else {
-                    new Table(suppliers, columnName);
-                }
-
+                else
+                    JOptionPane.showMessageDialog(null, "Supplier Deleted");
             }
         }).setFont(Styles.heading);
 

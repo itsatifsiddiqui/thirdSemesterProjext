@@ -36,7 +36,7 @@ public class SupplierForm extends GUI {
 
                     for (Supplier s : suppliers) {
                         if (s.getPhone().equalsIgnoreCase(supplier.getName()) || s.getPevDues() == supplier.getPevDues()) {
-                            JOptionPane.showMessageDialog(null, "Supplier Alreay Exist");
+                            JOptionPane.showMessageDialog(null, "Supplier Already Exist");
                             return;
                         }
                     }

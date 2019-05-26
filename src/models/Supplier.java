@@ -41,16 +41,29 @@ public class Supplier extends Person implements Serializable {
         return Operations.readAllData(fileName);
     }
 
-    public static ArrayList<Supplier> searchSupplier(String cnic) {
-        ArrayList<Supplier> suppliers = Operations.readAllData(fileName);
+    public static ArrayList<Supplier> searchSupplier(String name) {
+        ArrayList<Supplier> suppliers = getAllSuppliers();
+        ArrayList<Supplier> temp = new ArrayList<Supplier>();
         for (Supplier supplier : suppliers) {
-            if (supplier.getCnic().equalsIgnoreCase(cnic)) {
-                ArrayList<Supplier> temp = new ArrayList<Supplier>();
+            if (supplier.getName().equalsIgnoreCase(name)) {
                 temp.add(supplier);
-                return temp;
             }
         }
-        return null;
+        return temp;
+    }
+
+    public static boolean deleteSupplier(String cnic) {
+
+        boolean found = false;
+        ArrayList<Supplier> supplierList = getAllSuppliers();
+
+        found = supplierList.removeIf((std) -> (std.getCnic().equals(cnic)));
+
+        if (found)
+            Operations.writeList(supplierList, fileName);
+
+        return found;
+
     }
 
 }
