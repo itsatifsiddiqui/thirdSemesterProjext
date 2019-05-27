@@ -17,10 +17,10 @@ import extras.Styles;
 @SuppressWarnings("all")
 public class SupplierMenu extends GUI {
 
-    String[] columnName = new String[] { "Name", "Phone", "CNIC", "Previous Dues" };
+    String[] columnName = new String[] { "Name", "Phone", "CNIC", "Previous Dues", "Products" };
 
     public SupplierMenu() {
-        init("Supplier Menu", new GridLayout(5, 1));
+        init("Supplier Menu", new GridLayout(6, 1));
         addButton("Add New Supplier", new ActionListener() {
 
             @Override
@@ -99,6 +99,16 @@ public class SupplierMenu extends GUI {
 
                 ArrayList<Supplier> list = Supplier.getAllSuppliers();
                 new Table(list, columnName);
+
+            }
+        }).setFont(Styles.heading);
+
+        addButton("Add Products", new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                new AddProductForm();
 
             }
         }).setFont(Styles.heading);

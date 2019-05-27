@@ -37,7 +37,7 @@ public class Table<StudentTaTbleModel> extends JFrame {
         if (list.get(0) instanceof Supplier) {
             ArrayList<Supplier> suppliersList = (ArrayList<Supplier>) list;
             for (Supplier supplier : suppliersList) {
-                Object[] x = { supplier.getName(), supplier.getPhone(), supplier.getCnic(), supplier.getPevDues() };
+                Object[] x = { supplier.getName(), supplier.getPhone(), supplier.getCnic(), supplier.getPevDues(),supplier.getProducts().size() };
                 tableModel.addRow(x);
             }
 

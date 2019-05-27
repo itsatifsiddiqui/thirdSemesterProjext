@@ -15,37 +15,24 @@ public class Operations {
     @SuppressWarnings("unchecked")
     public static <T>  ArrayList<T> readAllData(String fileName) {
         
-        // ArrayList initialized with size 0
         ArrayList<T> list = new ArrayList<T>(0);
-        // Input stream
         ObjectInputStream inputStream = null;
         try {
-            // open file for reading
             inputStream = new ObjectInputStream(new FileInputStream(fileName));
-            // End Of File flag
             boolean EOF = false;
-            // Keep reading file until file ends
             while (!EOF) {
                 try {
-                    // read object and type cast into CarDetails object
                     T myObj = (T) inputStream.readObject();
-                    // add object into ArrayList
                     list.add(myObj);
-                    // System.out.println("Read: " + myObj.getName());
                 } catch (ClassNotFoundException e) {
                     // System.out.println("Class not found");
                 } catch (EOFException end) {
-                    // EOFException is raised when file ends
-                    // set End Of File flag to true so that loop exits
                     EOF = true;
                 }
             }
         } catch (FileNotFoundException e) {
-            // System.out.println("Cannot find file");
         } catch (IOException e) {
-            // System.out.println("IO Exception while opening stream");
-            // e.printStackTrace();
-        } finally { // cleanup code to close stream if it was opened
+        } finally { 
             try {
                 if (inputStream != null)
                     inputStream.close();

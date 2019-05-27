@@ -10,6 +10,7 @@ import extras.Styles;;
 @SuppressWarnings("all")
 public class AdminPanel extends GUI {
 
+    
     public AdminPanel() {
 
         init("Admin Panel", new GridLayout(1, 3));

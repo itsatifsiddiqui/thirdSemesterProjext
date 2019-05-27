@@ -13,6 +13,7 @@ import extras.File;
 import extras.GUI;
 import extras.Regex;
 import extras.Styles;
+import models.Product;
 import models.Supplier;
 
 @SuppressWarnings("all")
@@ -44,7 +45,7 @@ public class SupplierForm extends GUI {
                         && fdues.matches(Regex.DOUBLE)) {
 
                     System.out.println(fname + " : " + fphone + " : " + fcnic + " : " + fdues);
-                    Supplier sup = new Supplier(fname, fphone, fcnic, Double.parseDouble(fdues));
+                    Supplier sup = new Supplier(fname, fphone, fcnic, Double.parseDouble(fdues),new ArrayList<Product>(0));
 
                     if (supplier == null) {
                         ArrayList<Supplier> suppliers = Operations.readAllData(File.supplier);

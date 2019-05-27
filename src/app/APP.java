@@ -5,6 +5,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import extras.File;
 import mdlaf.MaterialLookAndFeel;
+import screens.MainMenu;
 import screens.SupplierMenu;
 
 public class APP {
@@ -17,7 +18,7 @@ public class APP {
 		}
 
 		System.out.println(Operations.readAllData(File.supplier));
-		new SupplierMenu();
+		new MainMenu();
 
 	}
 

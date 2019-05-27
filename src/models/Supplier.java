@@ -5,19 +5,31 @@ import java.util.ArrayList;
 
 import app.Operations;
 import extras.File;
+import models.*;
 
-@SuppressWarnings("all")
+// @SuppressWarnings("all")
 public class Supplier extends Person implements Serializable {
 
-    double prevDues;
+    private double prevDues;
+    private ArrayList<Product> products;
 
     public Supplier() {
         super();
+        products = new ArrayList<Product>(0);
     }
 
-    public Supplier(String name, String phone, String cnic, double prevDues) {
+    public Supplier(String name, String phone, String cnic, double prevDues, ArrayList<Product> arrayList) {
         super(name, phone, cnic);
         this.prevDues = prevDues;
+        this.products = arrayList;
+    }
+
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(ArrayList<Product> products) {
+        this.products = products;
     }
 
     public double getPevDues() {
@@ -30,12 +42,11 @@ public class Supplier extends Person implements Serializable {
 
     @Override
     public String toString() {
-        return super.toString() + "Previous Dues: " + getPevDues() + "\n";
+        return super.toString() + "Previous Dues: " + getPevDues() + "Products List: " + products.toString() + "\n";
     }
 
     public static void addNewSupplier(Supplier s) {
         Operations.writeData(s, File.supplier);
-        System.out.println("Written");
     }
 
     public static ArrayList<Supplier> getAllSuppliers() {
@@ -79,7 +90,6 @@ public class Supplier extends Person implements Serializable {
     }
 
     public static void updateSupplier(Supplier s, String cnicSearch) {
-
         ArrayList<Supplier> supplierList = getAllSuppliers();
         for (Supplier supplier : supplierList)
             if (supplier.getCnic().equals(cnicSearch)) {
