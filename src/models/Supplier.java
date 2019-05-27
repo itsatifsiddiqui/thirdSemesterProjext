@@ -7,7 +7,7 @@ import app.Operations;
 import extras.File;
 import models.*;
 
-// @SuppressWarnings("all")
+@SuppressWarnings("all")
 public class Supplier extends Person implements Serializable {
 
     private double prevDues;
@@ -45,7 +45,7 @@ public class Supplier extends Person implements Serializable {
         return super.toString() + "Previous Dues: " + getPevDues() + "Products List: " + products.toString() + "\n";
     }
 
-    public static void addNewSupplier(Supplier s) {
+    public static void add(Supplier s) {
         Operations.writeData(s, File.supplier);
     }
 
@@ -64,7 +64,7 @@ public class Supplier extends Person implements Serializable {
         return temp;
     }
 
-    public static boolean deleteSupplier(String cnic) {
+    public static boolean delete(String cnic) {
 
         boolean found = false;
         ArrayList<Supplier> supplierList = getAllSuppliers();
@@ -89,7 +89,22 @@ public class Supplier extends Person implements Serializable {
 
     }
 
-    public static void updateSupplier(Supplier s, String cnicSearch) {
+    public static int getSupplierIndex(String cnic) {
+        ArrayList<Supplier> supplierList = getAllSuppliers();
+
+
+        for (int i = 0; i <supplierList.size();i++) {
+            if (supplierList.get(i).getCnic().equals(cnic)){
+                return i;
+            }
+        }
+
+
+        return -1;
+
+    }
+
+    public static void update(Supplier s, String cnicSearch) {
         ArrayList<Supplier> supplierList = getAllSuppliers();
         for (Supplier supplier : supplierList)
             if (supplier.getCnic().equals(cnicSearch)) {
@@ -100,6 +115,18 @@ public class Supplier extends Person implements Serializable {
                 break;
             }
         Operations.writeList(supplierList, File.supplier);
+    }
+
+    public static ArrayList<String> getSuppliersName() {
+
+        ArrayList<String> array = new ArrayList<String>();
+
+        getAllSuppliers().forEach((supplier) -> {
+            array.add(supplier.getName() + "  :  " + supplier.getCnic());
+        });
+
+        return array;
+
     }
 
 }

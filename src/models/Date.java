@@ -10,7 +10,7 @@ public class Date implements Serializable {
     public Date() {
     }
 
-    public Date(int day, int year, int month) {
+    public Date(int day, int month, int year) {
         this.day = day;
         this.year = year;
         this.month = month;
@@ -38,6 +38,22 @@ public class Date implements Serializable {
 
     public void setMonth(int month) {
         this.month = month;
+    }
+
+    public static boolean validateDate(Date mfgDate, Date expDate){
+
+        if (mfgDate.year < expDate.year)
+            if (mfgDate.month < expDate.month)
+                if (mfgDate.day < expDate.day)
+                    return true;
+                else
+                    return false;
+            else
+                return false;
+        else
+            return false;
+        
+
     }
 
 

@@ -2,113 +2,106 @@ package screens;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import com.toedter.calendar.JDateChooser;
 
+import app.Operations;
 import extras.*;
+import models.Category;
+import models.Date;
+import models.Product;
+import models.Supplier;
 
 public class AddProductForm extends GUI {
 
+    JComboBox supplierListBox;
 
-    JComboBox<String> productsListBox;
-    JLabel productListLabel;
-    JButton addToCartBtn;
-    JButton removeFromCartBtn;
-    JLabel productDetailLabel;
-    JList<Object> productsList;
-    ArrayList<String> products;
-    JScrollPane scrollPane;
+    public AddProductForm() {
+        init("Add Product", new GridLayout(11, 1), 800, 600);
 
+        supplierListBox = addComboBox("  Suppliers List",
+                Supplier.getSuppliersName().size() == 0 ? new Object[] { "No Supplier Exist" }
+                        : Supplier.getSuppliersName().toArray());
+        JTextField brand = addTextField("  Product Brand", "");
+        JTextField name = addTextField("  Product Name", "");
+        JComboBox category = addComboBox("  Suppliers List",
+                new Category[] { Category.COSMETIC, Category.FOOD, Category.CROCKERY });
+        JTextField purchae = addTextField("  Purchase Price", "");
+        JTextField sale = addTextField("  Sale Price", "");
+        JTextField quantity = addTextField("  Quantity", "");
+        JDateChooser mfgDate = addCalendarBox("  MFG Date");
+        JDateChooser expDate = addCalendarBox("  EXP Date");
 
-    public AddProductForm(){
-        
-        init("Operator Panel", null, 1050, 768);
-        initComponents();
-        initBounds();
+        JPanel panel = new JPanel(new BorderLayout(1, 1));
+        add(panel);
 
-        productsListBox.addActionListener(new ActionListener() {
+        addButton("Add", new ActionListener() {
 
             @Override
-            public void actionPerformed(ActionEvent e) {
-                productDetailLabel.setText(productsListBox.getSelectedItem().toString()
-                        + " asdhjksahdsa hjadskh dsajkhsad kjsadh jkdsah sakjasdh kjas hasjaskh skj sk");
+            public void actionPerformed(ActionEvent arg0) {
+
+                String temp = supplierListBox.getSelectedItem().toString();
+                String cnic = temp.substring(temp.length() - 13, temp.length()).trim();
+
+                String fbrand = brand.getText();
+                String fname = name.getText();
+                Category fCategory = (Category) category.getSelectedItem();
+                String fpurchase = purchae.getText();
+                String fsale = sale.getText();
+                String fquantity = quantity.getText();
+                java.util.Date fmfgDate = mfgDate.getDate();
+                java.util.Date fexpDate = expDate.getDate();
+
+                if (fmfgDate == null) {
+                    JOptionPane.showMessageDialog(null, "Choose Date from MFG date box.");
+                    return;
+                }
+                if (fexpDate == null) {
+                    JOptionPane.showMessageDialog(null, "Choose Date from EXP date box.");
+                    return;
+                }
+                Date emfgDate = null;
+                Date eexpDate = null;
+                if (fmfgDate.before(fexpDate)) {
+                    emfgDate = new Date(fmfgDate.getDay(), fmfgDate.getMonth(), fmfgDate.getYear());
+                    eexpDate = new Date(fexpDate.getDay(), fexpDate.getMonth(), fexpDate.getYear());
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid Date");
+                    return;
+                }
+
+                if (fpurchase.matches(Regex.DOUBLE) && fsale.matches(Regex.DOUBLE) && fquantity.matches(Regex.INTEGER)
+                        && !supplierListBox.getSelectedObjects()[0].toString().equalsIgnoreCase("No Supplier Exist")) {
+
+                    Product newProduct = new Product(fbrand, fname, fCategory, Double.parseDouble(fpurchase),
+                            Double.parseDouble(fsale), Integer.parseInt(fquantity), emfgDate, eexpDate);
+                    Supplier supplier = Supplier.getSupplier(cnic);
+                    int index = Supplier.getSupplierIndex(cnic);
+                    supplier.getProducts().add(newProduct);
+
+                    ArrayList<Supplier> suppliers = Supplier.getAllSuppliers();
+
+                    suppliers.set(index, supplier);
+
+                    Operations.writeList(suppliers, File.supplier);
+
+                    JOptionPane.showMessageDialog(null, "Product Added Successfully");
+                    setVisible(false);
+                    dispose();
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid Information Provided");
+                    return;
+                }
+
             }
         });
 
-        addButton("Add To Cart", new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                String text = productsListBox.getSelectedItem().toString();
-                products.add(text);
-                System.err.println(products);
-                productsList.setListData(products.toArray());
-            }
-        }).setBounds(670, 60, 150, 40);
-
-        addButton("Remove From Cart", new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String text = productsListBox.getSelectedItem().toString();
-                products.remove(text);
-                System.err.println(products);
-                productsList.setListData(products.toArray());
-            }
-        }).setBounds(840, 60, 180, 40);
-
-        addButton("Generate Invoice", new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                
-            }
-        }).setBounds(600, 650, 400, 50);
-
-        addComponents(new Component[] { productsListBox, productListLabel, productDetailLabel, scrollPane });
-
         end();
-    }
-
-
-    public void initComponents() {
-
-        productListLabel = new JLabel("Products List");
-
-        productsListBox = new JComboBox<>(new String[] { "Hello", "who are you", "jewwelt", "PRODUCT4", "PRODUCT5",
-                "PRODUCT6", "Hello", "who are you", "jewwelt", "PRODUCT4", "PRODUCT5", "PRODUCT6", "Hello",
-                "who are you", "jewwelt", "PRODUCT4", "PRODUCT5", "PRODUCT6", "Hello", "who are you", "jewwelt",
-                "PRODUCT4", "PRODUCT5", "PRODUCT6", "Hello", "who are you", "jewwelt", "PRODUCT4", "PRODUCT5",
-                "PRODUCT6", "Hello", "who are you", "jewwelt", "PRODUCT4", "PRODUCT5", "PRODUCT6", "Hello",
-                "who are you", "jewwelt", "PRODUCT4", "PRODUCT5", "PRODUCT6" });
-
-        AutoCompleteDecorator.decorate(productsListBox);
-
-        productDetailLabel = new JLabel(productsListBox.getSelectedItem().toString()
-                + " asdhjksahdsa hjadskh dsajkhsad kjsadh jkdsah sakjasdh kjas hasjaskh skj sk");
-
-        products = new ArrayList<String>(0);
-
-        productsList = new JList<Object>(products.toArray());
-
-        scrollPane = new JScrollPane(productsList);
 
     }
 
-    public void initBounds() {
-
-        productListLabel.setBounds(20, 60, 400, 40);
-
-        productsListBox.setBounds(140, 60, 500, 40);
-
-        productDetailLabel.setBounds(20, 110, 1000, 40);
-
-        scrollPane.setBounds(10, 180, 1000, 450);
-
-    }
-
-    
 }

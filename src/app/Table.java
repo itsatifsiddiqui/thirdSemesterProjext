@@ -17,7 +17,6 @@ public class Table<StudentTaTbleModel> extends JFrame {
 
         setSize(800, 600);
 
-
         if (list.size() == 0) {
             JOptionPane.showMessageDialog(null, "No Record Exist Try Adding Some");
             return;
@@ -37,12 +36,12 @@ public class Table<StudentTaTbleModel> extends JFrame {
         if (list.get(0) instanceof Supplier) {
             ArrayList<Supplier> suppliersList = (ArrayList<Supplier>) list;
             for (Supplier supplier : suppliersList) {
-                Object[] x = { supplier.getName(), supplier.getPhone(), supplier.getCnic(), supplier.getPevDues(),supplier.getProducts().size() };
+                Object[] x = { supplier.getName(), supplier.getPhone(), supplier.getCnic(), supplier.getPevDues(),
+                        supplier.getProducts().size() };
                 tableModel.addRow(x);
             }
 
         }
-
 
         table.setPreferredScrollableViewportSize(new Dimension(640, 480));
         table.setFillsViewportHeight(true);

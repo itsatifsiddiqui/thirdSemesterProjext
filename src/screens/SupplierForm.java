@@ -60,7 +60,7 @@ public class SupplierForm extends GUI {
                         JOptionPane.showMessageDialog(null, "Supplier Added Successfully");
                     } else {
                         
-                        Supplier.updateSupplier(sup, cnicSearch);
+                        Supplier.update(sup, cnicSearch);
                         JOptionPane.showMessageDialog(null, "Supplier Edited Successfully");
                     }
 

@@ -5,6 +5,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 @SuppressWarnings("all")
 public abstract class GUI extends JFrame implements GuiMethod {
 
@@ -37,7 +42,29 @@ public abstract class GUI extends JFrame implements GuiMethod {
         panel.add(textField);
         add(panel);
         return textField;
+    }
 
+    public JComboBox addComboBox(String labelTitle, Object[] items) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(1, 2));
+        JLabel label = new JLabel(labelTitle);
+        panel.add(label);
+        JComboBox<Object> comboBox = new JComboBox<Object>(items);
+        AutoCompleteDecorator.decorate(comboBox);
+        panel.add(comboBox);
+        add(panel);
+        return comboBox;
+    }
+
+    public JDateChooser addCalendarBox(String labelTitle) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(1, 2));
+        JLabel label = new JLabel(labelTitle);
+        panel.add(label);
+        JDateChooser calendar = new JDateChooser();
+        panel.add(calendar);
+        add(panel);
+        return calendar;
     }
 
     @Override

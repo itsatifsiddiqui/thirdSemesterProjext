@@ -84,7 +84,7 @@ public class SupplierMenu extends GUI {
                     JOptionPane.showMessageDialog(null, "Invalid CNIC");
                     return;
                 }
-                boolean hasDeleted = Supplier.deleteSupplier(cnic);
+                boolean hasDeleted = Supplier.delete(cnic);
                 if (!hasDeleted)
                     JOptionPane.showMessageDialog(null, "Supplier Not Found");
                 else
