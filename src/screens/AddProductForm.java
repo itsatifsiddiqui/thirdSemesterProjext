@@ -15,6 +15,7 @@ import models.Date;
 import models.Product;
 import models.Supplier;
 
+@SuppressWarnings("all")
 public class AddProductForm extends GUI {
 
     JComboBox supplierListBox;
