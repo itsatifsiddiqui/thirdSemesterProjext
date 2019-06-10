@@ -31,7 +31,7 @@ public class SupplierForm extends GUI {
         JTextField phone = addTextField("   Phone", (supplier == null) ? "" : supplier.getPhone());
         JTextField cnic = addTextField("   CNIC", (supplier == null) ? "" : supplier.getCnic());
         JTextField dues = addTextField("   Prev", (supplier == null) ? "0" : String.valueOf(supplier.getPevDues()));
-        addButton("Add Supplier", new ActionListener() {
+        addButton(supplier == null ? "Add Supplier" : "Edit " + supplier.getName(), new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -45,7 +45,8 @@ public class SupplierForm extends GUI {
                         && fdues.matches(Regex.DOUBLE)) {
 
                     System.out.println(fname + " : " + fphone + " : " + fcnic + " : " + fdues);
-                    Supplier sup = new Supplier(fname, fphone, fcnic, Double.parseDouble(fdues),new ArrayList<Product>(0));
+                    Supplier sup = new Supplier(fname, fphone, fcnic, Double.parseDouble(fdues),
+                            new ArrayList<Product>(0));
 
                     if (supplier == null) {
                         ArrayList<Supplier> suppliers = Operations.readAllData(File.supplier);
@@ -59,7 +60,7 @@ public class SupplierForm extends GUI {
                         Operations.writeData(sup, File.supplier);
                         JOptionPane.showMessageDialog(null, "Supplier Added Successfully");
                     } else {
-                        
+
                         Supplier.update(sup, cnicSearch);
                         JOptionPane.showMessageDialog(null, "Supplier Edited Successfully");
                     }

@@ -2,6 +2,7 @@ package extras;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -55,6 +56,22 @@ public abstract class GUI extends JFrame implements GuiMethod {
         add(panel);
         return comboBox;
     }
+
+    public JComboBox showSearchBox(ArrayList<String> l,String message) {
+        Object[] list =  l.toArray();
+        JComboBox jcb = new JComboBox(list);
+        jcb.setEditable(true);
+        JOptionPane.showMessageDialog(null, jcb, message, JOptionPane.QUESTION_MESSAGE);
+        return jcb;
+    }
+
+    // public Panel searchPanel(){
+    // Panel searchPanel = new Panel();
+    // searchPanel.setLayout(new GridLayout(2,1));
+    // JComboBox search = addComboBox("labelTitle", null);
+    // searchPanel.setVisible(true);
+    // return searchPanel;
+    // }
 
     public JDateChooser addCalendarBox(String labelTitle) {
         JPanel panel = new JPanel();

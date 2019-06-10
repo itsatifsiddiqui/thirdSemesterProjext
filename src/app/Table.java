@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import models.Product;
 import models.Supplier;
 
 // @SuppressWarnings("all")
@@ -40,6 +41,27 @@ public class Table<StudentTaTbleModel> extends JFrame {
                         supplier.getProducts().size() };
                 tableModel.addRow(x);
             }
+        }
+
+        if (list.get(0) instanceof Product) {
+            ArrayList<Product> productsList = (ArrayList<Product>) list;
+
+            if (productsList.size() != Supplier.getAllProducts().size()) {
+                for (Product product : productsList) {
+                    Object[] x = { product.getBrand(), product.getName(), product.getBrand(),
+                            product.getPurchasePrice(), product.getSalePrice(), product.getQuantity(),
+                            product.getMfgDate().toString(), product.getExpDate().toString() };
+                    tableModel.addRow(x);
+                }
+            } else
+                for (Supplier supplier : Supplier.getAllSuppliers()) {
+                    for (Product product : supplier.getProducts()) {
+                        Object[] x = { supplier.getName(), product.getBrand(), product.getName(), product.getBrand(),
+                                product.getPurchasePrice(), product.getSalePrice(), product.getQuantity(),
+                                product.getMfgDate().toString(), product.getExpDate().toString() };
+                        tableModel.addRow(x);
+                    }
+                }
 
         }
 

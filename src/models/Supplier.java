@@ -64,17 +64,13 @@ public class Supplier extends Person implements Serializable {
         return temp;
     }
 
-    public static boolean delete(String cnic) {
+    public static void delete(String cnic) {
 
-        boolean found = false;
         ArrayList<Supplier> supplierList = getAllSuppliers();
 
-        found = supplierList.removeIf((std) -> (std.getCnic().equals(cnic)));
+        supplierList.removeIf((std) -> (std.getCnic().equals(cnic)));
 
-        if (found)
-            Operations.writeList(supplierList, File.supplier);
-
-        return found;
+        Operations.writeList(supplierList, File.supplier);
 
     }
 
@@ -92,13 +88,11 @@ public class Supplier extends Person implements Serializable {
     public static int getSupplierIndex(String cnic) {
         ArrayList<Supplier> supplierList = getAllSuppliers();
 
-
-        for (int i = 0; i <supplierList.size();i++) {
-            if (supplierList.get(i).getCnic().equals(cnic)){
+        for (int i = 0; i < supplierList.size(); i++) {
+            if (supplierList.get(i).getCnic().equals(cnic)) {
                 return i;
             }
         }
-
 
         return -1;
 
@@ -126,7 +120,16 @@ public class Supplier extends Person implements Serializable {
         });
 
         return array;
+    }
 
+    public static ArrayList<Product> getAllProducts() {
+        ArrayList<Product> products = new ArrayList<Product>(0);
+        for (Supplier supplier : Supplier.getAllSuppliers()) {
+            for (Product product : supplier.getProducts()) {
+                products.add(product);
+            }
+        }
+        return products;
     }
 
 }

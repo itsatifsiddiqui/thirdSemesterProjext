@@ -59,7 +59,7 @@ public class Date implements Serializable {
 
     @Override
     public String toString() {
-        return "Day: " + getDay() + "  Month: " + getMonth() + "  Year: " + getYear() + "\n";
+        return getDay() + "-" + getMonth() + "-" + getYear() + "\n";
     }
 
 }

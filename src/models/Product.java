@@ -27,6 +27,13 @@ public class Product implements Serializable {
         this.expDate = expDate;
     }
 
+    public boolean equals(Product product){
+        if (this.name.equals(product.name) && this.brand.equals(product.brand) ){
+            return true;
+        }
+        return false;
+    }
+
     public String getBrand() {
         return this.brand;
     }
@@ -58,6 +65,8 @@ public class Product implements Serializable {
     public void setPurchasePrice(double purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
+
+
 
     public double getSalePrice() {
         return this.salePrice;

@@ -5,20 +5,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import extras.GUI;
+import extras.GuiMethod;
 import extras.Styles;;
 
-@SuppressWarnings("all")
+// @SuppressWarnings("all")
 public class AdminPanel extends GUI {
 
-    
     public AdminPanel() {
 
-        init("Admin Panel", new GridLayout(1, 3));
+        init("Admin Panel", new GridLayout(2, 2));
 
         addButton("Inventory", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("ADD");
+                System.out.println("ADD");  
             }
         }).setFont(Styles.heading);
 
@@ -36,6 +36,15 @@ public class AdminPanel extends GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new SupplierMenu();
+
+            }
+        }).setFont(Styles.heading);
+
+        addButton("Products", new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ProductsMenu();
 
             }
         }).setFont(Styles.heading);

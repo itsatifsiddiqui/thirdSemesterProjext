@@ -8,11 +8,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import extras.*;
+import models.*;
 
 @SuppressWarnings("all")
 public class OperatorPanel extends GUI {
@@ -45,9 +47,12 @@ public class OperatorPanel extends GUI {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
+
                 String text = productsListBox.getSelectedItem().toString();
-                products.add(text);
-                System.err.println(products);
+                String quantity = JOptionPane.showInputDialog("Enter Quantity");
+
+                products.add(String.format("%s %220s", text, quantity));
+
                 productsList.setListData(products.toArray());
             }
         }).setBounds(670, 60, 150, 40);
@@ -57,7 +62,7 @@ public class OperatorPanel extends GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String text = productsListBox.getSelectedItem().toString();
-                products.remove(text);
+                products.removeIf((product) -> product.substring(0,text.length()).equals(text));
                 System.err.println(products);
                 productsList.setListData(products.toArray());
             }
@@ -67,7 +72,7 @@ public class OperatorPanel extends GUI {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                
+
             }
         }).setBounds(600, 650, 400, 50);
 
@@ -79,13 +84,13 @@ public class OperatorPanel extends GUI {
     public void initComponents() {
 
         productListLabel = new JLabel("Products List");
+        ArrayList<Product> plist = Supplier.getAllProducts();
+        String[] productsArray = new String[plist.size()];
+        for (int i = 0; i < plist.size(); i++) {
+            productsArray[i] = plist.get(i).getName();
+        }
 
-        productsListBox = new JComboBox<>(new String[] { "Hello", "who are you", "jewwelt", "PRODUCT4", "PRODUCT5",
-                "PRODUCT6", "Hello", "who are you", "jewwelt", "PRODUCT4", "PRODUCT5", "PRODUCT6", "Hello",
-                "who are you", "jewwelt", "PRODUCT4", "PRODUCT5", "PRODUCT6", "Hello", "who are you", "jewwelt",
-                "PRODUCT4", "PRODUCT5", "PRODUCT6", "Hello", "who are you", "jewwelt", "PRODUCT4", "PRODUCT5",
-                "PRODUCT6", "Hello", "who are you", "jewwelt", "PRODUCT4", "PRODUCT5", "PRODUCT6", "Hello",
-                "who are you", "jewwelt", "PRODUCT4", "PRODUCT5", "PRODUCT6" });
+        productsListBox = new JComboBox<>(productsArray);
 
         AutoCompleteDecorator.decorate(productsListBox);
 
@@ -94,6 +99,7 @@ public class OperatorPanel extends GUI {
 
         products = new ArrayList<String>(0);
 
+        products.add(String.format("%s %200s", "Products Name", "Quantity"));
         productsList = new JList<Object>(products.toArray());
 
         scrollPane = new JScrollPane(productsList);

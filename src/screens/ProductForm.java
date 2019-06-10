@@ -16,23 +16,29 @@ import models.Product;
 import models.Supplier;
 
 @SuppressWarnings("all")
-public class AddProductForm extends GUI {
+public class ProductForm extends GUI {
 
     JComboBox supplierListBox;
 
-    public AddProductForm() {
-        init("Add Product", new GridLayout(11, 1), 800, 600);
+    public ProductForm(String supplierName, Product product) {
+        init(product == null ? "Add Product" : "Edit " + product.getName(), new GridLayout(11, 1), 800, 600);
+
+        if (Supplier.getSuppliersName().size() == 0) {
+            JOptionPane.showMessageDialog(null, "No Suppliers Exist, First Add Some Suppliers");
+            return;
+        }
 
         supplierListBox = addComboBox("  Suppliers List",
-                Supplier.getSuppliersName().size() == 0 ? new Object[] { "No Supplier Exist" }
-                        : Supplier.getSuppliersName().toArray());
-        JTextField brand = addTextField("  Product Brand", "");
-        JTextField name = addTextField("  Product Name", "");
+                product == null ? Supplier.getSuppliersName().toArray() : new Object[] { supplierName });
+
+        JTextField brand = addTextField("  Product Brand", product == null ? "" : product.getBrand());
+        JTextField name = addTextField("  Product Name", product == null ? "" : product.getName());
         JComboBox category = addComboBox("  Suppliers List",
                 new Category[] { Category.COSMETIC, Category.FOOD, Category.CROCKERY });
-        JTextField purchae = addTextField("  Purchase Price", "");
-        JTextField sale = addTextField("  Sale Price", "");
-        JTextField quantity = addTextField("  Quantity", "");
+        JTextField purchae = addTextField("  Purchase Price",
+                product == null ? "" : String.valueOf(product.getPurchasePrice()));
+        JTextField sale = addTextField("  Sale Price", product == null ? "" : String.valueOf(product.getSalePrice()));
+        JTextField quantity = addTextField("  Quantity", product == null ? "" : String.valueOf(product.getQuantity()));
         JDateChooser mfgDate = addCalendarBox("  MFG Date");
         JDateChooser expDate = addCalendarBox("  EXP Date");
 
@@ -79,20 +85,36 @@ public class AddProductForm extends GUI {
 
                     Product newProduct = new Product(fbrand, fname, fCategory, Double.parseDouble(fpurchase),
                             Double.parseDouble(fsale), Integer.parseInt(fquantity), emfgDate, eexpDate);
+
                     Supplier supplier = Supplier.getSupplier(cnic);
                     int index = Supplier.getSupplierIndex(cnic);
-                    supplier.getProducts().add(newProduct);
 
                     ArrayList<Supplier> suppliers = Supplier.getAllSuppliers();
 
-                    suppliers.set(index, supplier);
+                    if (product == null) {
 
-                    Operations.writeList(suppliers, File.supplier);
+                        supplier.getProducts().add(newProduct);
 
-                    JOptionPane.showMessageDialog(null, "Product Added Successfully");
+                        suppliers.set(index, supplier);
+
+                        Operations.writeList(suppliers, File.supplier);
+
+                        JOptionPane.showMessageDialog(null, "Product Added Successfully");
+
+                    } else {
+                        for (int i = 0; i < supplier.getProducts().size(); i++) {
+                            if (supplier.getProducts().get(i).getName().equals(product.getName())) {
+                                supplier.getProducts().set(i, newProduct);
+                                System.out.println("After " + supplier.getProducts().get(i));
+                                Operations.writeList(suppliers, File.supplier);
+                                JOptionPane.showMessageDialog(null, "Product Edited Successfully");
+                                break;
+                            }
+                        }
+                    }
+
                     setVisible(false);
                     dispose();
-
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid Information Provided");
                     return;

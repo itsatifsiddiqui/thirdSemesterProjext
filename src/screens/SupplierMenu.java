@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 import app.Table;
@@ -20,7 +21,8 @@ public class SupplierMenu extends GUI {
     String[] columnName = new String[] { "Name", "Phone", "CNIC", "Previous Dues", "Products" };
 
     public SupplierMenu() {
-        init("Supplier Menu", new GridLayout(6, 1));
+
+        init("Supplier Menu", new GridLayout(5, 1));
         addButton("Add New Supplier", new ActionListener() {
 
             @Override
@@ -56,19 +58,26 @@ public class SupplierMenu extends GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                String cnic = JOptionPane.showInputDialog("Enter Supplier Cnic To Search").trim();
 
-                if (!cnic.matches(Regex.CNIC)) {
-                    JOptionPane.showMessageDialog(null, "Invalid CNIC");
+                ArrayList<Supplier> suppliers = Supplier.getAllSuppliers();
+
+                ArrayList<String> list = new ArrayList<String>();
+
+                for (Supplier supplier : suppliers)
+                    list.add(supplier.getName() + " : " + supplier.getCnic());
+
+                if (list.size() == 0) {
+                    JOptionPane.showMessageDialog(null, "No Record To Edit");
                     return;
                 }
+                JComboBox supplierListBox = showSearchBox(list, "Select Supplier To Edit");
+
+                String temp = supplierListBox.getSelectedItem().toString();
+                String cnic = temp.substring(temp.length() - 13, temp.length()).trim();
 
                 Supplier supplier = Supplier.getSupplier(cnic);
-                if (supplier == null)
-                    JOptionPane.showMessageDialog(null, "Supplier Not Found");
-                else {
-                    new SupplierForm(supplier);
-                }
+
+                new SupplierForm(supplier);
 
             }
 
@@ -78,17 +87,26 @@ public class SupplierMenu extends GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                String cnic = JOptionPane.showInputDialog("Enter Supplier Cnic To Search").trim();
 
-                if (!cnic.matches(Regex.CNIC)) {
-                    JOptionPane.showMessageDialog(null, "Invalid CNIC");
+                ArrayList<Supplier> suppliers = Supplier.getAllSuppliers();
+
+                ArrayList<String> list = new ArrayList<String>();
+
+                for (Supplier supplier : suppliers)
+                    list.add(supplier.getName() + " : " + supplier.getCnic());
+
+                if (list.size() == 0) {
+                    JOptionPane.showMessageDialog(null, "No Record To Delete");
                     return;
                 }
-                boolean hasDeleted = Supplier.delete(cnic);
-                if (!hasDeleted)
-                    JOptionPane.showMessageDialog(null, "Supplier Not Found");
-                else
-                    JOptionPane.showMessageDialog(null, "Supplier Deleted");
+
+                JComboBox supplierListBox = showSearchBox(list, "Select Supplier To Delete");
+
+                String temp = supplierListBox.getSelectedItem().toString();
+                String cnic = temp.substring(temp.length() - 13, temp.length()).trim();
+
+                Supplier.delete(cnic);
+                JOptionPane.showMessageDialog(null, "Supplier Deleted");
             }
         }).setFont(Styles.heading);
 
@@ -99,16 +117,6 @@ public class SupplierMenu extends GUI {
 
                 ArrayList<Supplier> list = Supplier.getAllSuppliers();
                 new Table(list, columnName);
-
-            }
-        }).setFont(Styles.heading);
-
-        addButton("Add Products", new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                new AddProductForm();
 
             }
         }).setFont(Styles.heading);

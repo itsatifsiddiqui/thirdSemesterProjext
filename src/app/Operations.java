@@ -14,7 +14,6 @@ public class Operations {
 
     @SuppressWarnings("unchecked")
     public static <T>  ArrayList<T> readAllData(String fileName) {
-        
         ArrayList<T> list = new ArrayList<T>(0);
         ObjectInputStream inputStream = null;
         try {
@@ -54,8 +53,6 @@ public class Operations {
             list.add(s);
             // Open Stream for writing
             outputStream = new ObjectOutputStream(new FileOutputStream(fileName));
-
-            // Write all objects (old and new one) into the file
 
             for (T student : list)
                 outputStream.writeObject(student);
