@@ -45,6 +45,16 @@ public abstract class GUI extends JFrame implements GuiMethod {
         return textField;
     }
 
+    public void addlabelsRow(String labelTitle, String lable) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(1, 2));
+        JLabel label = new JLabel(labelTitle);
+        panel.add(label);
+        JLabel label2 = new JLabel(lable);
+        panel.add(label2);
+        add(panel);
+    }
+
     public JComboBox addComboBox(String labelTitle, Object[] items) {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1, 2));
@@ -57,8 +67,8 @@ public abstract class GUI extends JFrame implements GuiMethod {
         return comboBox;
     }
 
-    public JComboBox showSearchBox(ArrayList<String> l,String message) {
-        Object[] list =  l.toArray();
+    public JComboBox showSearchBox(ArrayList<String> l, String message) {
+        Object[] list = l.toArray();
         JComboBox jcb = new JComboBox(list);
         jcb.setEditable(true);
         JOptionPane.showMessageDialog(null, jcb, message, JOptionPane.QUESTION_MESSAGE);

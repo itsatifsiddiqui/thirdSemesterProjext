@@ -1,6 +1,8 @@
 package app;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -13,7 +15,9 @@ import models.Product;
 import models.Supplier;
 import screens.ProductForm;
 import screens.AdminPanel;
+import screens.InvoiceFrame;
 import screens.MainMenu;
+import screens.SalePanel;
 import screens.ProductsMenu;
 import screens.SupplierMenu;
 
@@ -37,8 +41,9 @@ public class APP {
 			Supplier.add(new Supplier("Haseeb", "03456643045", "3430174715354", 200, p));
 			Supplier.add(new Supplier("Faraz", "03456643045", "3430174715355", 200, p));
 		}
-		// new ProductsMenu();
-		new MainMenu();
+		new InvoiceFrame(Supplier.getAllSuppliers(), new String[] { "Name", "Phone", "CNIC", "Previous Dues", "Products" });
+		// new AdminPanel();
+		// new SalePanel(null);
 
 	}
 }

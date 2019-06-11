@@ -25,8 +25,7 @@ public class MainMenu extends GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                new OperatorPanel();
-
+                new SalePanel(null);
             }
         }).setFont(Styles.heading);
 

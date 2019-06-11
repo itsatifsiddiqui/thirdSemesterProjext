@@ -9,12 +9,12 @@ import javax.swing.table.DefaultTableModel;
 import models.Product;
 import models.Supplier;
 
-// @SuppressWarnings("all")
+@SuppressWarnings("all")
 public class Table<StudentTaTbleModel> extends JFrame {
 
     JTable table;
 
-    public <T> Table(ArrayList<T> list, String[] columnNames) {
+    public <T> Table(ArrayList<T> list, Object[] columnNames) {
 
         setSize(800, 600);
 
@@ -62,7 +62,6 @@ public class Table<StudentTaTbleModel> extends JFrame {
                         tableModel.addRow(x);
                     }
                 }
-
         }
 
         table.setPreferredScrollableViewportSize(new Dimension(640, 480));
@@ -71,6 +70,10 @@ public class Table<StudentTaTbleModel> extends JFrame {
         add(scrollPane);
         setResizable(false);
         setVisible(true);
+    }
+
+    public JTable getTable(){
+        return table;
     }
 
 }

@@ -1,22 +1,23 @@
 package models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 @SuppressWarnings("all")
 public class Product implements Serializable {
 
-    String brand,name;
+    String brand, name;
     Category category;
     double purchasePrice, salePrice;
     int quantity;
     Date mfgDate;
     Date expDate;
 
-
     public Product() {
     }
 
-    public Product(String brand, String name, Category category, double purchasePrice, double salePrice, int quantity, Date mfgDate, Date expDate) {
+    public Product(String brand, String name, Category category, double purchasePrice, double salePrice, int quantity,
+            Date mfgDate, Date expDate) {
         this.brand = brand;
         this.name = name;
         this.category = category;
@@ -27,8 +28,8 @@ public class Product implements Serializable {
         this.expDate = expDate;
     }
 
-    public boolean equals(Product product){
-        if (this.name.equals(product.name) && this.brand.equals(product.brand) ){
+    public boolean equals(Product product) {
+        if (this.name.equals(product.name) && this.brand.equals(product.brand)) {
             return true;
         }
         return false;
@@ -66,8 +67,6 @@ public class Product implements Serializable {
         this.purchasePrice = purchasePrice;
     }
 
-
-
     public double getSalePrice() {
         return this.salePrice;
     }
@@ -100,30 +99,39 @@ public class Product implements Serializable {
         this.expDate = expDate;
     }
 
+    public static Product searchByName(String name){
+        ArrayList<Product> products = Supplier.getAllProducts();
+        for (Product product : products) {
+            if (product.name.equals(name.toLowerCase())){
+                return product;
+            }
+        }
+        return null;
+    }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("\nBrand: ").append(getBrand());
-        stringBuilder.append("\nname: ").append(getName());
-        stringBuilder.append("\ncategory: ").append(getCategory().toString());
-        stringBuilder.append("\npurchasePrice: ").append(getPurchasePrice());
-        stringBuilder.append("\nsalePrice: ").append(getSalePrice());
-        stringBuilder.append("\nquantity: ").append(getQuantity());
-        stringBuilder.append("\nmfgDate: ").append(getMfgDate().toString());
-        stringBuilder.append("\nexpDate: ").append(getExpDate().toString());
+        stringBuilder.append("Brand: ").append(getBrand());
+        stringBuilder.append("  Name: ").append(getName());
+        stringBuilder.append("  Category: ").append(getCategory().toString());
+        stringBuilder.append("  Purchase Price: ").append(getPurchasePrice());
+        stringBuilder.append("  Sale Price: ").append(getSalePrice());
+        stringBuilder.append("  Quantity: ").append(getQuantity());
+        stringBuilder.append("  Mfg Date: ").append(getMfgDate().toString());
+        stringBuilder.append("  Exp Date: ").append(getExpDate().toString());
         return stringBuilder.toString();
 
         // return "{" +
-        //     " brand='" + getBrand() + "'" +
-        //     ", name='" + getName() + "'" +
-        //     ", category='" + getCategory() + "'" +
-        //     ", purchasePrice='" + getPurchasePrice() + "'" +
-        //     ", salePrice='" + getSalePrice() + "'" +
-        //     ", quantity='" + getQuantity() + "'" +
-        //     ", mfgDate='" + getMfgDate() + "'" +
-        //     ", expDate='" + getExpDate() + "'" +
-        //     "}";
+        // " brand='" + getBrand() + "'" +
+        // ", name='" + getName() + "'" +
+        // ", category='" + getCategory() + "'" +
+        // ", purchasePrice='" + getPurchasePrice() + "'" +
+        // ", salePrice='" + getSalePrice() + "'" +
+        // ", quantity='" + getQuantity() + "'" +
+        // ", mfgDate='" + getMfgDate() + "'" +
+        // ", expDate='" + getExpDate() + "'" +
+        // "}";
     }
 
 }
