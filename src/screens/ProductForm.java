@@ -1,24 +1,31 @@
 package screens;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-
-import javax.swing.*;
-
-import com.toedter.calendar.JDateChooser;
-
 import app.Operations;
-import extras.*;
+import com.toedter.calendar.JDateChooser;
+import extras.File;
+import extras.GUI;
+import extras.Regex;
 import models.Category;
 import models.Date;
 import models.Product;
 import models.Supplier;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+
 @SuppressWarnings("all")
 public class ProductForm extends GUI {
 
     JComboBox supplierListBox;
+    JRadioButton comseticRadioButton;
+    JRadioButton foodRadioButton;
+    JRadioButton crockeryRadioButton;
+    Category category = Category.COSMETIC;
 
     public ProductForm(String supplierName, Product product) {
         init(product == null ? "Add Product" : "Edit " + product.getName(), new GridLayout(11, 1), 800, 600);
@@ -33,8 +40,37 @@ public class ProductForm extends GUI {
 
         JTextField brand = addTextField("  Product Brand", product == null ? "" : product.getBrand());
         JTextField name = addTextField("  Product Name", product == null ? "" : product.getName());
-        JComboBox category = addComboBox("  Suppliers List",
-                new Category[] { Category.COSMETIC, Category.FOOD, Category.CROCKERY });
+
+
+        JPanel pane = new JPanel();
+        pane.setLayout(new GridLayout(1, 2));
+        JLabel label = new JLabel("Select Category");
+        pane.add(label);
+        JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridLayout(1, 3));
+
+        comseticRadioButton = new JRadioButton(Category.COSMETIC.toString(), true);
+        foodRadioButton = new JRadioButton(Category.FOOD.toString(), false);
+        crockeryRadioButton = new JRadioButton(Category.CROCKERY.toString(), false);
+
+        panel2.add(comseticRadioButton);
+        panel2.add(foodRadioButton);
+        panel2.add(crockeryRadioButton);
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(comseticRadioButton);
+        bg.add(foodRadioButton);
+        bg.add(crockeryRadioButton);
+        pane.add(panel2);
+        add(pane);
+        Listener listener = new Listener();
+        comseticRadioButton.addItemListener(listener);
+        foodRadioButton.addItemListener(listener);
+        crockeryRadioButton.addItemListener(listener);
+
+
+
+
+
         JTextField purchae = addTextField("  Purchase Price",
                 product == null ? "" : String.valueOf(product.getPurchasePrice()));
         JTextField sale = addTextField("  Sale Price", product == null ? "" : String.valueOf(product.getSalePrice()));
@@ -55,7 +91,7 @@ public class ProductForm extends GUI {
 
                 String fbrand = brand.getText();
                 String fname = name.getText();
-                Category fCategory = (Category) category.getSelectedItem();
+                Category fCategory = (Category) category;
                 String fpurchase = purchae.getText();
                 String fsale = sale.getText();
                 String fquantity = quantity.getText();
@@ -83,7 +119,7 @@ public class ProductForm extends GUI {
                 if (fpurchase.matches(Regex.DOUBLE) && fsale.matches(Regex.DOUBLE) && fquantity.matches(Regex.INTEGER)
                         && !supplierListBox.getSelectedObjects()[0].toString().equalsIgnoreCase("No Supplier Exist")) {
 
-                    Product newProduct = new Product(fbrand, fname, fCategory, Double.parseDouble(fpurchase),
+                    Product newProduct = new Product(fbrand, fname, category, Double.parseDouble(fpurchase),
                             Double.parseDouble(fsale), Integer.parseInt(fquantity), emfgDate, eexpDate);
 
                     Supplier supplier = Supplier.getSupplier(cnic);
@@ -125,6 +161,22 @@ public class ProductForm extends GUI {
 
         end();
 
+    }
+
+    private class Listener implements ItemListener {
+
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+
+            if (comseticRadioButton.isSelected()) {
+                category = Category.COSMETIC;
+            } else if (foodRadioButton.isSelected()) {
+                category = Category.FOOD;
+            } else if (crockeryRadioButton.isSelected()) {
+                category = Category.CROCKERY;
+            }
+
+        }
     }
 
 }

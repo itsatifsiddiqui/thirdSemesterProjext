@@ -1,18 +1,20 @@
 package extras;
 
+import com.toedter.calendar.JDateChooser;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
-
-import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JDateChooser;
-
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-
 @SuppressWarnings("all")
 public abstract class GUI extends JFrame implements GuiMethod {
+
+
+    JRadioButton comseticRadioButton;
+    JRadioButton foodRadioButton;
+    JRadioButton crockeryRadioButton;
 
     @Override
     public void init(String title, LayoutManager layout) {
@@ -106,5 +108,6 @@ public abstract class GUI extends JFrame implements GuiMethod {
         // setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
+
 
 }

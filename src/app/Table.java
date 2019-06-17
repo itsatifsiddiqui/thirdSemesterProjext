@@ -1,13 +1,12 @@
 package app;
 
-import java.awt.*;
-import java.util.ArrayList;
+import models.Product;
+import models.Supplier;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
-import models.Product;
-import models.Supplier;
+import java.awt.*;
+import java.util.ArrayList;
 
 @SuppressWarnings("all")
 public class Table<StudentTaTbleModel> extends JFrame {
@@ -48,7 +47,7 @@ public class Table<StudentTaTbleModel> extends JFrame {
 
             if (productsList.size() != Supplier.getAllProducts().size()) {
                 for (Product product : productsList) {
-                    Object[] x = { product.getBrand(), product.getName(), product.getBrand(),
+                    Object[] x = {product.getBrand(), product.getName(), product.getCategory().toString(),
                             product.getPurchasePrice(), product.getSalePrice(), product.getQuantity(),
                             product.getMfgDate().toString(), product.getExpDate().toString() };
                     tableModel.addRow(x);
@@ -56,7 +55,7 @@ public class Table<StudentTaTbleModel> extends JFrame {
             } else
                 for (Supplier supplier : Supplier.getAllSuppliers()) {
                     for (Product product : supplier.getProducts()) {
-                        Object[] x = { supplier.getName(), product.getBrand(), product.getName(), product.getBrand(),
+                        Object[] x = {supplier.getName(), product.getBrand(), product.getName(), product.getCategory().toString(),
                                 product.getPurchasePrice(), product.getSalePrice(), product.getQuantity(),
                                 product.getMfgDate().toString(), product.getExpDate().toString() };
                         tableModel.addRow(x);

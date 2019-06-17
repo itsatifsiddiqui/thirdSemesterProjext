@@ -1,21 +1,17 @@
 package screens;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Map;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-
+import extras.GUI;
+import extras.Regex;
+import models.Cart;
+import models.Product;
+import models.Supplier;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
-import extras.*;
-import models.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 @SuppressWarnings("all")
 public class SalePanel extends GUI {
@@ -29,13 +25,11 @@ public class SalePanel extends GUI {
     ArrayList<String> products;
     JScrollPane scrollPane;
     Product activeProduct;
-    String supplierName;
     int selectedQuantity;
     ArrayList<Cart> cartItems = new ArrayList<Cart>(0);
 
-    public SalePanel(String supplieName) {
-        this.supplierName = supplieName;
-        init(supplierName == null ? "Operator Panel" : "Admin Buy Panel", null, 1050, 768);
+    public SalePanel() {
+        init("Operator Panel", null, 1050, 768);
         initComponents();
         initBounds();
 
@@ -57,7 +51,13 @@ public class SalePanel extends GUI {
             public void actionPerformed(ActionEvent arg0) {
 
                 String productName = productsListBox.getSelectedItem().toString();
-                selectedQuantity = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity"));
+                String qiantity = JOptionPane.showInputDialog("Enter Quantity");
+                if (qiantity.matches(Regex.INTEGER)) {
+                    selectedQuantity = Integer.parseInt(qiantity);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please Enter Some Quantity");
+                    return;
+                }
                 double price = activeProduct.getSalePrice() * selectedQuantity;
                 System.out.println(cartItems);
                 if (activeProduct.getQuantity() < selectedQuantity || selectedQuantity <= 0) {
@@ -66,8 +66,8 @@ public class SalePanel extends GUI {
                 }
                 cartItems.add(new Cart(productName, selectedQuantity, price));
 
-                products.add(String.format("%s %120s %97s", productName, selectedQuantity, selectedQuantity
-                        * (supplierName == null ? activeProduct.getSalePrice() : activeProduct.getSalePrice())));
+                products.add(String.format("%-110s %-97s %s", productName, selectedQuantity, selectedQuantity
+                        * (activeProduct.getSalePrice())));
 
                 activeProduct.setQuantity(activeProduct.getQuantity() - selectedQuantity);
                 productDetailLabel.setText(activeProduct.toString());
@@ -95,16 +95,13 @@ public class SalePanel extends GUI {
             @Override
             public void actionPerformed(ActionEvent arg0) {
 
-                double bill = 0;
                 if (cartItems.size() == 0) {
                     JOptionPane.showMessageDialog(null, "Please Add Some Products To Cart Before Checking Out");
                     return;
                 }
 
-                for (Cart cart : cartItems) {
-                    bill += cart.getPrice();
-                }
-                System.out.println(bill);
+                new Invoice(cartItems);
+                dispose();
 
             }
         }).setBounds(600, 650, 400, 50);
@@ -117,11 +114,9 @@ public class SalePanel extends GUI {
     public void initComponents() {
 
         productListLabel = new JLabel("Products List");
-        ArrayList<Product> plist;
-        if (supplierName == null)
-            plist = Supplier.getAllProducts();
-        else
-            plist = Supplier.getAllProducts();
+        ArrayList<Product> plist
+
+                = Supplier.getAllProducts();
 
         String[] productsArray = new String[plist.size()];
         for (int i = 0; i < plist.size(); i++) {
@@ -133,13 +128,16 @@ public class SalePanel extends GUI {
         AutoCompleteDecorator.decorate(productsListBox);
 
         String productName = productsListBox.getSelectedItem().toString();
-        activeProduct = Product.searchByName(productName);
+        System.out.println(productName);
+        activeProduct = Product.searchByName(productName.toLowerCase());
+
+        System.out.println(activeProduct);
 
         productDetailLabel = new JLabel(activeProduct.toString());
 
         products = new ArrayList<String>(0);
 
-        products.add(String.format("%s %100s %90s ", "Products Name", "Quantity", "Price"));
+        products.add(String.format("%-50s %50s %90s ", "Products Name", "Quantity", "Price"));
         productsList = new JList<Object>(products.toArray());
 
         scrollPane = new JScrollPane(productsList);

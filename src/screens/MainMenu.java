@@ -1,11 +1,11 @@
 package screens;
 
-import java.awt.GridLayout;
+import extras.GUI;
+import extras.Styles;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import extras.GUI;
-import extras.Styles;;
 
 @SuppressWarnings("all")
 public class MainMenu extends GUI {
@@ -25,7 +25,7 @@ public class MainMenu extends GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                new SalePanel(null);
+                new SalePanel();
             }
         }).setFont(Styles.heading);
 

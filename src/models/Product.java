@@ -101,8 +101,9 @@ public class Product implements Serializable {
 
     public static Product searchByName(String name){
         ArrayList<Product> products = Supplier.getAllProducts();
+        System.out.println(products);
         for (Product product : products) {
-            if (product.name.equals(name.toLowerCase())){
+            if (product.getName().equalsIgnoreCase(name.toLowerCase())) {
                 return product;
             }
         }

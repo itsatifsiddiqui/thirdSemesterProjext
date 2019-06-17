@@ -1,11 +1,10 @@
 package models;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
 import app.Operations;
 import extras.File;
-import models.*;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 @SuppressWarnings("all")
 public class Supplier extends Person implements Serializable {
